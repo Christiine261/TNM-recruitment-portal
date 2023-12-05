@@ -1,0 +1,248 @@
+ /* Apply styles to the job post container */
+/* Style the job post container */
+
+.job-table {
+  width: 100%; /* Make the table fill the width of the container */
+  border-collapse: collapse; /* Collapse border-spacing */
+}
+
+.job-table th, .job-table td {
+  padding: 10px;
+  text-align: left;
+  /* border: 2px solid #5fcf80; Border color for each cell */
+}
+
+.job-table th {
+  background-color: #f9f9f9; /* Header background color */
+}
+
+/* Style the links within the table */
+.job-table a {
+  color: #5fcf80;
+  text-decoration: none;
+  /*background-color: #5fcf80;*/
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-block;
+}
+.job-table tr {
+  border-bottom: 4px solid #707070; /* Border color for row divisions */
+}
+
+
+/*job sections style*/
+.container_jobs {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  background-color: #f7f2f2
+  ;
+ } 
+
+.job-section {
+  width: 45%; 
+  border: 2px solid #fafafa;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.job-section.hidden {
+  display: none;
+}
+
+#apply-button {
+  display: block;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #5fcf80;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+#all-jobs {
+  /* Existing styles */
+
+  /* New styles for transition and initial position */
+  transition: all 0.3s ease; /* Adjust the duration and timing function as needed */
+  margin: 0 auto; /* Center the container horizontally */
+  max-width: 800px; /* Set the maximum width of the container */
+}
+
+#all-jobs.collapsed {
+  /* Styles to apply when the container is collapsed */
+  max-width: 200px; /* Adjust the width as needed */
+  margin-left: 0; /* Move the container to the left */
+}
+
+#job-details {
+  /* New styles for the job details section */
+  transition: all 0.3s ease; /* Adjust the duration and timing function as needed */
+  max-width: 800px; /* Set the maximum width of the job details section */
+  margin: 0 auto; /* Center the job details section horizontally */
+  position: relative; 
+}
+
+#job-details.expanded {
+  /* Styles to apply when the job details section is expanded */
+  max-width: 100%; /* Expand to full width */
+}
+
+#close-button {
+  position: absolute;
+  top: 10px; /* Adjust the top position as needed */
+  right: 10px; /* Adjust the right position as needed */
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #555; /* Adjust the color as needed */
+}
+
+
+
+
+
+/* Add this to your existing CSS or create a new CSS file */
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  padding: 90px; /* Increase padding for more size */
+  z-index: 1000;
+  text-align: center; /* Center the content */
+}
+
+.popup-content {
+  display: flex;
+  flex-direction: column; /* Arrange buttons vertically */
+}
+
+.popup button {
+  margin: 10px;
+  padding: 15px 60px; /* Increase padding for button size */
+  font-size: 16px; /* Increase font size */
+  background-color: #5fcf80;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+
+
+
+
+/* Add this to your existing CSS or create a new CSS file */
+#overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  z-index: 999; /* Ensure the overlay is behind the pop-up */
+}
+
+
+
+
+
+/* Close button CSS */
+.popup-content #close-button-popup {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #070707;
+  cursor: pointer;
+}
+
+
+
+
+/* Add this to your existing CSS or create a new CSS file */
+#manual-application-form {
+  margin-top: 20px;
+}
+
+#manual-application-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+#manual-application-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+
+/* Style the "Edit" link */
+/* .job-post a.edit-link {
+  color: #000;
+  text-decoration: none;
+  padding: 8px 15px;
+  background-color: #007bff;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  display: inline-block;
+  margin-right: 10px;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.job-post a.edit-link:hover {
+  background-color: #0056b3;
+  color: #fff;
+} */
+
+/* Style the "Edit" link */
+/* .job-post a[href*="edit_job.php"] {
+  color: #000;
+  text-decoration: none;
+  padding: 8px 15px;
+  background-color: #007bff;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  display: inline-block;
+  margin-right: 10px;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.job-post a[href*="edit_job.php"]:hover {
+  background-color: #0056b3;
+  color: #fff;
+} */
+
+/* Style the "Delete" link */
+/* .job-post a[href*="delete_job.php"] {
+  color: #ff0000;
+  text-decoration: none;
+  padding: 8px 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ff0000;
+  border-radius: 5px;
+  display: inline-block;
+  margin-right: 10px;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.job-post a[href*="delete_job.php"]:hover {
+  background-color: #ffcccc;
+  color: #ff0000;
+}
+ */

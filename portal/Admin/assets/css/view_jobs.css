@@ -1,0 +1,97 @@
+body {
+  font-size: 16px;
+  line-height: 1.5em;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+/* Apply styles to the job post container */
+/* Style the job post container */
+
+.job-post {
+  width: calc(100% - 20px); /* Adjust the width to fit one post in a row */
+  margin: 20px 10px; /* Added margin to separate posts */
+  padding: 20px;
+  border: 2px solid #5fcf80;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #fff;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+  display: block; /* Display job posts as blocks, one per row */
+  vertical-align: top; /* Align posts at the top */
+  box-sizing: border-box; /* Include padding and border in width calculation */
+}
+
+/* Style the job title */
+.job-post h2 {
+  margin-top: 0;
+  font-size: 1.8em;
+  padding: 10px;
+  background-color: #5fcf80;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  text-transform: uppercase; /* Convert text to uppercase */
+  color: #fff;
+}
+
+/* Style the job details */
+.job-post p {
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+/* Style the "Edit" link */
+.job-post a.edit-link {
+  color: #000;
+  text-decoration: none;
+  padding: 8px 15px;
+  background-color: #007bff;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  display: inline-block;
+  margin-right: 10px;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.job-post a.edit-link:hover {
+  background-color: #0056b3;
+  color: #fff;
+}
+
+/* Style the "Edit" link */
+.job-post a[href*="edit_job.php"] {
+  color: #000;
+  text-decoration: none;
+  padding: 8px 15px;
+  background-color: #007bff;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  display: inline-block;
+  margin-right: 10px;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.job-post a[href*="edit_job.php"]:hover {
+  background-color: #0056b3;
+  color: #fff;
+}
+
+/* Style the "Delete" link */
+.job-post a[href*="delete_job.php"] {
+  color: #ff0000;
+  text-decoration: none;
+  padding: 8px 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ff0000;
+  border-radius: 5px;
+  display: inline-block;
+  margin-right: 10px;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.job-post a[href*="delete_job.php"]:hover {
+  background-color: #ffcccc;
+  color: #ff0000;
+}
+
