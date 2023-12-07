@@ -1,7 +1,7 @@
 <?php
 include_once("../db.php");
 
-// Process registration form submission
+/* // Process registration form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $_POST["job_title"];
     $description = $_POST["job_description"];
@@ -26,8 +26,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+$conn->close(); */
+
+?>
+<?php
+include_once("../db.php");
+
+// Process registration form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $title = $_POST["job_title"];
+    $description = $_POST["job_description"];
+    $qualifications = $_POST["qualifications"];
+    $responsibilities = $_POST["responsibilities"];
+    $deadline = $_POST["deadline_date"];
+
+    /* $delimiter = "|||";
+    $responsibilities = str_replace("\n", $delimiter, $responsibilities);
+    $responsibilityList = array_filter(array_map('trim', explode($delimiter, $responsibilities)));
+ */
+    // SQL query to post a job into the database using prepared statements
+    $sql = "INSERT INTO jobs (job_title, job_description, qualifications, responsibilities, deadline_date) VALUES (?, ?, ?, ?, ?)";
+
+    // Create a prepared statement
+    $stmt = $conn->prepare($sql);
+
+    // Bind parameters
+    $stmt->bind_param("sssss", $title, $description, $qualifications, $responsibilities, $deadline);
+
+    // Execute the statement
+    if ($stmt->execute()) {
+        echo "Job Posted Successfully .....";
+        header("Location: index.php");
+        exit();
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Close the connection
 $conn->close();
 ?>
+
 
 
 <!DOCTYPE html>

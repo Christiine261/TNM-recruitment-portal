@@ -80,7 +80,17 @@ if ($result->num_rows > 0) {
          }
          echo "</ul>";
 
-        echo "<p><strong>Responsibilities:</strong></p>";
+
+         echo "<p><strong>Responsibilities:</strong></p>";
+         $responsibilities = explode("\n", $row['responsibilities']);
+         echo "<ul>";
+          foreach($responsibilities as $responsibility) {
+              echo "<li> {$responsibility} </li>";
+          }
+          echo "</ul>";
+ 
+
+       /*  echo "<p><strong>Responsibilities:</strong></p>";
        $responsibilities = explode("\n", $row['responsibilities']);
        echo "<ul>";
         foreach($responsibilities as $responsibility) {
@@ -88,7 +98,7 @@ if ($result->num_rows > 0) {
 
         }
         echo "</ul>";
-
+ */
         echo "<p><strong>Deadline:</strong></p>";
         echo "<p>{$row['deadline_date']}</p>";
         echo '<p><a href="edit_job.php?id=' . $row['job_id'] . '">Edit</a> | <a href="delete_job.php?id=' . $row['job_id'] . '">Delete</a></p>';

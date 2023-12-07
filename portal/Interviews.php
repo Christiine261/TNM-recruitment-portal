@@ -46,7 +46,7 @@
       
 
       <?php 
-      $currentPage = 'events';
+      $currentPage = 'Interviews';
       include_once("navbar.php");
       ?>
 

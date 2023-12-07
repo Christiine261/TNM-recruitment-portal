@@ -92,7 +92,7 @@ if(isset($_POST['submit'])) {
                     echo '</li>';
                 } else {
                     // User is not logged in
-                    echo '<a href="login.php" class="get-started-btn">Login</a> ';
+                    echo '<a href="login.php" class="login-btn"><i class="bi bi-person"></i> Login</a>';
                 }
             ?>
         </nav>

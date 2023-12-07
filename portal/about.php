@@ -25,6 +25,7 @@
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
@@ -61,7 +62,8 @@
                     echo '</li>';
                 } else {
                     // User is not logged in
-                    echo '<a href="login.php" class="get-started-btn">Login</a> ';
+                    echo '<a href="login.php" class="login-btn"><i class="bi bi-person"></i> Login</a>';
+
                 }
             ?>
         </nav>

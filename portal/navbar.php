@@ -4,6 +4,7 @@
 
 <nav id="navbar" class="navbar order-last order-lg-0">
     <ul>
+        
         <li <?php if ($currentPage === 'home') echo 'class="active"'; ?>><a href="index.php">Home</a></li>
         
         <li <?php if ($currentPage === 'jobs') echo 'class="active"'; ?>><a href="jobs.php">Jobs</a></li>

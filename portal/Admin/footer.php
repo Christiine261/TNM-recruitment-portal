@@ -5,6 +5,6 @@
     </div>
     <div class="credits">
       
-      Owned by <a href="https://tnm.co.mw">TNM</a>
+      Powered by <a href="https://tnm.co.mw">TNM</a>
     </div>
   </footer><!-- End Footer -->

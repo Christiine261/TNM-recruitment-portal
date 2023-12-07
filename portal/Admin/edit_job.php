@@ -126,7 +126,7 @@ textarea {
 
 /* Style the submit button */
 input[type="submit"] {
-    background-color: green;
+    background-color: #5fcf80;
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -185,7 +185,7 @@ h1 {
 
   <?php
  //footer
-  require_once("footer.php");
+ // require_once("footer.php");
   ?>
   
 
