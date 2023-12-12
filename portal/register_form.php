@@ -84,6 +84,12 @@
         ?>
 
                   <form class="row g-3 needs-validation" method="post"  action="">
+
+                  <div class="col-12">
+                      <label for="full_name" class="form-label">Full name</label>
+                        <input type="text" name="full_name" class="form-control" id="full_name" required>
+                  </div>
+
                   
 
                     <div class="col-12">
@@ -158,7 +164,9 @@ include_once("db.php");
 
 // Process registration form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
+
+
+    $full_name = $_POST["full_name"];  
     $email = $_POST["email"];
     $password = $_POST["password"];
 
@@ -181,7 +189,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // SQL query to insert user data into the database
-    $sql = "INSERT INTO users (email, password) VALUES ('$email', '$hashed_password')";
+    $sql = "INSERT INTO users (full_name, email, password) VALUES ('$full_name', '$email', '$hashed_password')";
 
     if ($conn->query($sql) === TRUE) {
         // Registration successful, redirect to login form

@@ -2,89 +2,112 @@
 <?php
 session_start();
 
+var_dump($_SESSION);
+
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    // Redirect unauthenticated users to the login page
     header('Location: login.php');
     exit();
 }
 
-// Include your database connection
-include_once("db.php");
-
-// Fetch user data from the database
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM user_profile WHERE user_id = $user_id";
-$result = mysqli_query($conn, $sql);
+include('db.php');
+
+// Fetch user details to pre-fill full_name
+$query = "SELECT full_name FROM users WHERE user_id = '$user_id'";
+$result = mysqli_query($conn, $query);
 
 if ($result) {
-    $userData = mysqli_fetch_assoc($result);
+    $userDetails = mysqli_fetch_assoc($result);
+    $loggedInUserFullName = isset($userDetails['full_name']) ? $userDetails['full_name'] : '';
 } else {
-    // Handle database error
-    die("Database error: " . mysqli_error($conn));
+    // Handle the case when fetching user details fails
+    $loggedInUserFullName = '';
 }
 
-// Check if the form is submitted for profile update
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Update user data in the database
-    $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
-    $middle_name = mysqli_real_escape_string($conn, $_POST['middle_name']);
-    $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
-    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
-    $street_address = mysqli_real_escape_string($conn, $_POST['street_address']);
-    $country = mysqli_real_escape_string($conn, $_POST['country']);
-    $dob = $_POST['dob'];
-    $gender = $_POST['gender'];
-
-    $degree = mysqli_real_escape_string($conn, $_POST['degree']);
-    $field_of_study = mysqli_real_escape_string($conn, $_POST['field_of_study']);
-    $graduation_year = mysqli_real_escape_string($conn, $_POST['graduation_year']);
-    $educational_institution = mysqli_real_escape_string($conn, $_POST['educational_institution']);
-
-    $job_title = mysqli_real_escape_string($conn, $_POST['job_title']);
-    $company = mysqli_real_escape_string($conn, $_POST['company']);
-    $years_of_experience = mysqli_real_escape_string($conn, $_POST['years_of_experience']);
-    $industry = mysqli_real_escape_string($conn, $_POST['industry']);
-
-    $certifications = mysqli_real_escape_string($conn, $_POST['certifications']);
-
-    // Handle other fields as needed...
-
-    // Update the user_profile table
-    $updateSql = "UPDATE user_profile SET
-        first_name = '$first_name',
-        middle_name = '$middle_name',
-        last_name = '$last_name',
-        phone = '$phone',
-        street_address = '$street_address',
-        country = '$country',
-        dob = '$dob',
-        gender = '$gender',
-        degree = '$degree',
-        field_of_study = '$field_of_study',
-        graduation_year = '$graduation_year',
-        educational_institution = '$educational_institution',
-        job_title = '$job_title',
-        company = '$company',
-        years_of_experience = '$years_of_experience',
-        industry = '$industry',
-        certifications = '$certifications'
-        WHERE user_id = $user_id";
-
-    $updateResult = mysqli_query($conn, $updateSql);
-
-    if ($updateResult) {
-        // Redirect to the profile page after update
-        header('Location: portfolio_page.php');
-        exit();
-    } else {
-        // Handle update error
-        die("Update error: " . mysqli_error($conn));
+    // Escape and sanitize user inputs
+    function sanitizeInput($input) {
+        global $conn;
+        return mysqli_real_escape_string($conn, $_POST[$input]);
     }
+
+    // Basic Personal Information
+    $full_name = is_array($_POST['full_name']) ? '' : sanitizeInput('full_name');
+    $phone = sanitizeInput('phone');
+    $street_address = sanitizeInput('street_address');
+    $country = sanitizeInput('country');
+    $dob = sanitizeInput('dob');
+    $gender = sanitizeInput('gender');
+
+    // Education
+    $degree = sanitizeInput('degree');
+    $field_of_study = sanitizeInput('field_of_study');
+    $graduation_year = sanitizeInput('graduation_year');
+    $educational_institution = sanitizeInput('educational_institution');
+
+    // Work Experience
+    $job_title = sanitizeInput('job_title');
+    $company = sanitizeInput('company');
+    $years_of_experience = sanitizeInput('years_of_experience');
+    $industry = sanitizeInput('industry');
+
+    // Professional Certifications
+    $certifications = sanitizeInput('certifications');
+
+    // Additional Skills
+    $skills = implode(', ', $_POST['skills']);
+
+    // Work Links
+    $work_links = [];
+    $work_links = isset($_POST['project_urls']) ? $_POST['project_urls'] : [];
+    foreach ($work_links as $key => $work_title) {
+        $work_links[] = [
+            'work_title' => sanitizeInput('work_titles')[$key],
+            'work_doc' => $_FILES['work_docs']['name'][$key],
+            'work_image' => $_FILES['work_images']['name'][$key],
+            'work_video' => $_FILES['work_videos']['name'][$key],
+            //'project_url' => sanitizeInput('project_urls')[$key],
+            'project_url' => isset($_POST['project_urls'][$key]) ? sanitizeInput('project_urls')[$key] : '',
+
+        ];
+    }
+
+    // References
+    $p_references = sanitizeInput('p_references');
+
+    // Directory to store uploaded files
+    $uploadDir = 'uploads/portfolios';
+
+    // Create the directory if it doesn't exist
+    if (!file_exists($uploadDir)) {
+        mkdir($uploadDir, 0755, true);
+    }
+
+    // Move and save uploaded files
+    $uploadedFiles = [];
+    foreach (['work_docs', 'work_images', 'work_videos'] as $fileType) {
+        foreach ($_FILES[$fileType]['name'] as $key => $fileName) {
+            $filePath = $uploadDir . $fileName;
+            move_uploaded_file($_FILES[$fileType]['tmp_name'][$key], $filePath);
+            $uploadedFiles[$fileType][$key] = $fileName;
+        }
+    }
+
+    $query = "INSERT INTO user_profile (user_id, full_name, phone, street_address, country, dob, gender, degree, field_of_study, graduation_year, educational_institution, job_title, company, years_of_experience, industry, certifications, skills, p_references, work_docs, work_image, work_video, project_url) 
+              VALUES ('$user_id', '$full_name', '$phone', '$street_address', '$country', '$dob', '$gender', '$degree', '$field_of_study', '$graduation_year', '$educational_institution', '$job_title', '$company', '$years_of_experience', '$industry', '$certifications', '$skills', '$p_references', '{$uploadedFiles['work_docs'][$key]}', '{$uploadedFiles['work_images'][$key]}', '{$uploadedFiles['work_videos'][$key]}', '{$work_links[$key]}')";
+
+    if (mysqli_query($conn, $query)) {
+        header('Location: success.php');
+        exit();
+    } else  {
+        echo "Error: " . mysqli_error($conn);
+    }
+
+    mysqli_close($conn);
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -101,11 +124,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="profile-container">
        
 
-        <form method="post" action="" id="profile-form">
+        <form method="post" action="" id="profile-form" enctype="multipart/form-data">
             <div id="basic-info">
                 <h3>basic personal Information</h3>
-                <label for="full-name">First Name:</label>
-                <input type="text" name="full_name" id="full-name" required>
+                <label for="full-name">Full Name:</label>
+                <input type="text" name="full_name" id="full-name" value="<?php echo $loggedInUserFullName; ?>" required>
 
 
                 <label for="phone">Phone Number:</label>
@@ -193,7 +216,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input type="file" name="work_videos[]" id="work-video" accept="video/*">
 
                         <label for="project-url">Project URL:</label>
-                        <input type="url" name="project_urls[]" id="project-url" placeholder="Enter project URL">
+                        <input type="url" name="project_url[]" id="project-url" placeholder="Enter project URL">
 
                         <button type="button" onclick="removeWorkLinkEntry(this)">Remove Work Link</button>
                     </div>
@@ -208,7 +231,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     
 
-            <button type="submit">Save Changes</button>
+            <button type="submit">Create  Portfolio</button>
         </form>
 
 

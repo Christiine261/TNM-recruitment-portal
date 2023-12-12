@@ -71,7 +71,8 @@ if (!isset($_SESSION['user_id'])) {
                     echo '<li class="dropdown">';
                     echo '    <a href="#" class="dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' . $user_email . '</a>';
                     echo '    <div class="dropdown-menu" aria-labelledby="userDropdown">';
-                    echo '        <a class="dropdown-item" href="portfolio_page.php">View/edit Profile</a>';
+                    echo '        <a class="dropdown-item" href="portfolio_form.php">create portfolio</a>';
+                    echo '        <a class="dropdown-item" href="view_portfolio.php">view portfolio</a>';
                     echo '        <a class="dropdown-item" href="logout.php">Logout</a>';
                     echo '    </div>';
                     echo '</li>';

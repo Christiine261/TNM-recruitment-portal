@@ -55,7 +55,8 @@
                     echo '<li class="dropdown">';
                     echo '    <a href="#" class="dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' . $user_email . '</a>';
                     echo '    <div class="dropdown-menu" aria-labelledby="userDropdown">';
-                    echo '        <a class="dropdown-item" href="#">View/Edit Profile</a>';
+                    echo '        <a class="dropdown-item" href="portfolio_form.php">create portfolio</a>';
+                    echo '        <a class="dropdown-item" href="view_portfolio.php">view portfolio</a>';
                     echo '        <a class="dropdown-item" href="logout.php">Logout</a>';
                     echo '    </div>';
                     echo '</li>';
@@ -90,6 +91,8 @@
           $result = $conn->query($query);
           if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
+              $jobId = $row['job_id'];
+
               echo '<div class="job-post" data-job-id="' . $row['job_id'] . '">';
               echo "<h4>{$row['job_title']}</h4>";
               echo "<p>Deadline:</p>";
@@ -106,7 +109,7 @@
 
       <!-- Section displaying job details and apply button -->
       <section id="job-details" class="job-section hidden">
-      <button id="close-button">&#10006;</button>
+      <!-- <button id="close-button">&#10006;</button> -->
       
         <div id="job-details-content">
           <!-- Job details will be dynamically populated here -->
@@ -137,53 +140,17 @@
   <script src="assets/js/main.js"></script>
   <script src="jobs.js" defer></script>
 
-  <!-- app pop up -->
+  <!-- app pop up 
 <div id="overlay"></div>
 
 <div id="apply-options-popup" class="popup">
   <div class="popup-content">
     <button id="close-button-popup" class="close-button">&#10006;</button>
     <button id="apply-manually">Apply Manually</button>
-    <form id="manual-application-form" style="display: none;">
-                    <div class="form_control">
-                        <label for="first_name">Fullname</label>
-                        <input type="text" id="fullname" name="fullname" placeholder="Enter fullname.." required>
-                    </div>
-
-
-                    <div class="form_control">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="Enter Email.." required>
-                    </div>
-
-
-                    <div class="textarea_control">
-                        <label for="address">Physical address</label>
-                        <textarea id="addres" name="addres" placeholder="Enter address.." row="4" cols="50" required></textarea>  
-                    </div>
-
-                    <div class="form_control">
-                        <label for="city">Referees</label>
-                        <input type="text" id="referees" name="referees" placeholder="Enter referees.." required>
-                    </div>
-
-                    
-                    <div class="form_control">
-                        <label for="upload">Upload Your CV</label>
-                        <input type="file" id="upload_CV" name="upload_CV"  accept=".pdf,.doc,.docx"required>
-                    </div>
-
-                    <div class="textarea_control">
-                    <label for="cover_letter">Cover Letter</label>
-                    <input type="file" id="cover_letter" name="cover_letter" accept=".pdf,.doc,.docx" required>
-                    </div>
-      <input type="submit" value="Submit">
-    </form>
-
     <button id="apply-with-cv">Apply with CV</button>
     <button id="use-previous-application">Use Previous Application</button>
   </div>
-</div>
+</div> -->
 
 
 </body>

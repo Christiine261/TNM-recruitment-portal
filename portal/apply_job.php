@@ -1,51 +1,39 @@
 <?php
-/* $hostname = "localhost";
-$username = "root";
-$dbname = "tnm_portal";
-$password = "";
-$usertable = "jobs";
-$columnname = "job_title";
+session_start(); // Start the session
 
-mysql_connect($hostname, $username, $password) OR die ("Unable to connect");
-mysql_select_db($dbname);
-$query="select * from $usertable";
-$result=mysql_query($query); */
-
-/* $hostname = "localhost";
-$username = "root";
-$dbname = "tnm_portal";
-$password = "";
-$usertable = "jobs";
-$columnname = "job_title";
-
-// Create connection
-$conn = new mysqli($hostname, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Check if the user is not logged in
+if (!isset($_SESSION['user_id'])) {
+    // Redirect to the login page or handle the case where the user is not logged in
+    header("Location: login.php");
+    exit();
 }
-
-// Query the database
-$query = "SELECT * FROM $usertable";
-$result = $conn->query($query);
-
-// Check for query success
-if (!$result) {
-    die("Query failed: " . $conn->error);
-}
-
-// Process the result (e.g., fetch rows)
-while ($row = $result->fetch_assoc()) {
-    // Process each row as needed
-    // Example: echo $row['job_title'];
-}
-s
-// Close the connection
-$conn->close();
-
- */
 ?>
+<?php
+// Check if the job ID parameter is set in the URL
+if (isset($_GET['jobId'])) {
+    // Get the job ID from the URL
+    $job_id = $_GET['jobId'];
+
+    // Now you can use $job_id in your code
+    echo "Job ID: $job_id";
+} else {
+    // Handle the case when the job ID is not provided in the URL
+    echo "Job ID not found in the URL.";
+}
+include_once("db.php");
+$user_id = $_SESSION['user_id'];
+$query = "SELECT email FROM users WHERE user_id = '$user_id'";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    $userDetails = mysqli_fetch_assoc($result);
+    $loggedInUserEmail = isset($userDetails['email']) ? $userDetails['email'] : '';
+} else {
+    // Handle the case when fetching user details fails
+    $loggedInUserEmail = '';
+}
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -94,65 +82,60 @@ $conn->close();
       ?>
 
 
-      
-
-      <a href="register_form.php" class="btn btn-dark">Logout</a>
-
-
     </div>
   </header><!-- End Header -->
 
   <main id="main" data-aos="fade-in">
-
-    <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs">
+     <!-- ======= Breadcrumbs ======= -->
+     <div class="breadcrumbs" data-aos="fade-in">
       <div class="container">
-        <h2>Jobs Application Form</h2>
-        <p>Apply Jobs of your Choice</p>
+        <h2>Applications</h2>
+        <p>Job application form</p>
       </div>
     </div><!-- End Breadcrumbs -->
 
+
     <div>
-       <form action="" method="post" enctype="multipart/form-data">
-
-                <div class="form_container">
-                    <div class="form_control">
-                        <label for="first_name">Fullname</label>
-                        <input type="text" id="fullname" name="fullname" placeholder="Enter fullname.." required>
-                    </div>
-
-
-                    <div class="form_control">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="Enter Email.." required>
-                    </div>
+        
+        <form id="manual-application-form" method="post" action = "" enctype="multipart/form-data">
+                <input type="hidden" name="jobId" value="<?php echo $job_id; ?>">
+                        <div class="form_control">
+                            <label for="first_name">Fullname</label>
+                            <input type="text" id="fullname" name="fullname" placeholder="Enter fullname.." value="<?php echo isset($_POST['fullname']) ? htmlspecialchars($_POST['fullname']) : ''; ?>" required>
+                        </div>
 
 
-                    <div class="textarea_control">
-                        <label for="address">Address</label>
-                        <textarea id="addres" name="addres" placeholder="Enter address.." row="4" cols="50" required></textarea>  
-                    </div>
-
-                    <div class="form_control">
-                        <label for="city">Referees</label>
-                        <input type="text" id="referees" name="referees" placeholder="Enter referees.." required>
-                    </div>
-
-                    
-                    <div class="form_control">
-                        <label for="upload">Upload Your CV</label>
-                        <input type="file" id="upload_CV" name="upload_CV"  accept=".pdf,.doc,.docx"required>
-                    </div>
-
-                    <div class="textarea_control">
-                    <label for="cover_letter">Cover Letter</label>
-                    <input type="file" id="cover_letter" name="cover_letter" accept=".pdf,.doc,.docx" required>
-                    </div>
+                        <div class="form_control">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Enter Email.." value="<?php echo $loggedInUserEmail; ?>" required>
+                        </div>
 
 
-                    <div class="button_container">
-                        <button type="submit">Apply Now</button>
-                    </div>
+                        <div class="textarea_control">
+                            <label for="address">Physical address</label>
+                            <textarea id="addres" name="address" placeholder="Enter address.." row="4" cols="50" value="<?php echo isset($_POST['address']) ? htmlspecialchars($_POST['address']) : ''; ?>" required></textarea>  
+                        </div>
+
+                        <div class="form_control">
+                            <label for="city">Referees</label>
+                            <input type="text" id="referees" name="referees" placeholder="Enter referees.." value="<?php echo isset($_POST['referees']) ? htmlspecialchars($_POST['referees']) : ''; ?>" required>
+                        </div>
+
+                        
+                        <div class="form_control">
+                            <p style="color: gray; font-size: 12px;"> Please make sure your CV is a PDF, DOC, or DOCX file and contains the word "CV" or "resume" in the filename. </p>
+                            <label for="upload">Upload Your CV</label>
+                            <input type="file" id="upload_CV" name="upload_CV"  accept=".pdf,.doc,.docx"required>
+                        </div>
+
+                        <div class="form_control">
+                        <p style="color: gray; font-size: 12px;"> Please make sure your cover letter is a PDF, DOC, or DOCX file and contains the word "CV" or "resume" in the filename. </p>
+                            <label for="cover_letter">Cover Letter</label>
+                            <input type="file" id="cover_letter" name="cover_letter" accept=".pdf,.doc,.docx" required>
+                        </div>
+                        
+            <input type="submit" value="Submit">
+        </form>
     </div>
 
 
@@ -174,6 +157,8 @@ $conn->close();
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="jobs.js"></script>
+
 
 </body>
 
@@ -183,7 +168,76 @@ $conn->close();
 
 include_once("db.php");
 
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $user_id = $_SESSION['user_id'];
+    $job_id = $_POST["jobId"];
+    $checkSql = "SELECT * FROM job_applications WHERE user_id = '$user_id' AND job_id = '$job_id'";
+    $checkResult = $conn->query($checkSql);
+
+    if ($checkResult->num_rows > 0) {
+        echo "<script>alert('You have already applied for this job.');</script>";
+    } else {
+        $fullname = $_POST["fullname"];
+        $email = $_POST["email"];
+        $address = $_POST["address"];
+        $referees = $_POST["referees"];
+
+        // Create the "uploads" folder if it doesn't exist
+        $CVuploadsFolder = "uploads/CVs";
+        $CLuploadsFolder = "uploads/CLs";
+
+        // Upload CV file
+        $cvFileName = $_FILES["upload_CV"]["name"];
+        $cvFilePath = "$CVuploadsFolder/$cvFileName";
+
+        $allowedCvExtensions = array("pdf", "doc", "docx");
+        $cvFileExtension = strtolower(pathinfo($cvFileName, PATHINFO_EXTENSION));
+        $cvFileNameLower = strtolower($cvFileName);
+
+        // Check if the CV file passes validation
+        if (!in_array($cvFileExtension, $allowedCvExtensions) || (strpos($cvFileNameLower, 'cv') === false && strpos($cvFileNameLower, 'resume') === false)) {
+            echo "<script>alert('Invalid CV file. Please make sure the file contains the word \"CV\" or \"resume\" in the filename.');</script>";
+        } else {
+            // Move uploaded CV file
+            move_uploaded_file($_FILES["upload_CV"]["tmp_name"], $cvFilePath);
+
+            // Upload Cover Letter file
+            $coverLetterFileName = $_FILES["cover_letter"]["name"];
+            $coverLetterFilePath = "$CLuploadsFolder/$coverLetterFileName";
+
+            $allowedCoverLetterExtensions = array("pdf", "doc", "docx");
+            $coverLetterFileExtension = strtolower(pathinfo($coverLetterFileName, PATHINFO_EXTENSION));
+            $coverLetterFileNameLower = strtolower($coverLetterFileName);
+
+            // Check if the cover letter file passes validation
+            if (!in_array($coverLetterFileExtension, $allowedCoverLetterExtensions) || strpos($coverLetterFileNameLower, 'cover letter') === false) {
+                echo "<script>alert('Invalid cover letter file. Please make sure the file contains the phrase \"cover letter\" in the filename.');</script>";
+            } else {
+                // Move uploaded cover letter file
+                move_uploaded_file($_FILES["cover_letter"]["tmp_name"], $coverLetterFilePath);
+
+                // Insert data into the database
+                $sql = "INSERT INTO job_applications (user_id, job_id, fullname, email, `address`, referees, cv_file_path, cover_letter_file_path)
+                VALUES ('$user_id', '$job_id', '$fullname', '$email', '$address', '$referees', '$cvFilePath', '$coverLetterFilePath')";
+
+                if ($conn->query($sql) === TRUE) {
+                    echo "<script>alert('Application submitted successfully!');</script>";
+                } else {
+                    echo "<script>alert('Application failed. Error: " . $sql . "<br>" . $conn->error . "');</script>";
+                }
+            }
+        }
+    }
+}
+
+
+
+$conn->close();
+
+
+/* if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = $_POST["fullname"];
     $email = $_POST["email"];
     $job_title = $_POST["job_title"];
@@ -223,6 +277,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     mysqli_close($conn);
-}
+} */
 
 ?>
