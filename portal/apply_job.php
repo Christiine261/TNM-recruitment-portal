@@ -123,15 +123,15 @@ if ($result) {
 
                         
                         <div class="form_control">
-                            <p style="color: gray; font-size: 12px;"> Please make sure your CV is a PDF, DOC, or DOCX file and contains the word "CV" or "resume" in the filename. </p>
+                            <p style="color: gray; font-size: 12px;"> Please make sure your CV is a PDF file and contains the word "CV" or "resume" in the filename. </p>
                             <label for="upload">Upload Your CV</label>
-                            <input type="file" id="upload_CV" name="upload_CV"  accept=".pdf,.doc,.docx"required>
+                            <input type="file" id="upload_CV" name="upload_CV"  accept=".pdf"required>
                         </div>
 
                         <div class="form_control">
-                        <p style="color: gray; font-size: 12px;"> Please make sure your cover letter is a PDF, DOC, or DOCX file and contains the word "CV" or "resume" in the filename. </p>
+                        <p style="color: gray; font-size: 12px;"> Please make sure your cover letter is a PDF file and contains the word "CV" or "resume" in the filename. </p>
                             <label for="cover_letter">Cover Letter</label>
-                            <input type="file" id="cover_letter" name="cover_letter" accept=".pdf,.doc,.docx" required>
+                            <input type="file" id="cover_letter" name="cover_letter" accept=".pdf" required>
                         </div>
                         
             <input type="submit" value="Submit">
@@ -192,7 +192,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $cvFileName = $_FILES["upload_CV"]["name"];
         $cvFilePath = "$CVuploadsFolder/$cvFileName";
 
-        $allowedCvExtensions = array("pdf", "doc", "docx");
+        $allowedCvExtensions = array("pdf");
         $cvFileExtension = strtolower(pathinfo($cvFileName, PATHINFO_EXTENSION));
         $cvFileNameLower = strtolower($cvFileName);
 
@@ -207,7 +207,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $coverLetterFileName = $_FILES["cover_letter"]["name"];
             $coverLetterFilePath = "$CLuploadsFolder/$coverLetterFileName";
 
-            $allowedCoverLetterExtensions = array("pdf", "doc", "docx");
+            $allowedCoverLetterExtensions = array("pdf");
             $coverLetterFileExtension = strtolower(pathinfo($coverLetterFileName, PATHINFO_EXTENSION));
             $coverLetterFileNameLower = strtolower($coverLetterFileName);
 

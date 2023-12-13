@@ -9,11 +9,13 @@
 .job-table th, .job-table td {
   padding: 10px;
   text-align: left;
+  
   /* border: 2px solid #5fcf80; Border color for each cell */
 }
 
 .job-table th {
   background-color: #f9f9f9; /* Header background color */
+  color: #3caf5e;
 }
 
 /* Style the links within the table */
@@ -36,7 +38,7 @@
   justify-content: space-between;
   align-items: flex-start;
   padding: 20px;
-  background-color: #f7f2f2
+  background-color: #eeeeee
   ;
  } 
 
@@ -72,6 +74,7 @@
   transition: all 0.3s ease; /* Adjust the duration and timing function as needed */
   margin: 0 auto; /* Center the container horizontally */
   max-width: 800px; /* Set the maximum width of the container */
+  cursor: pointer;
 }
 
 #all-jobs.collapsed {
@@ -82,28 +85,20 @@
 
 #job-details {
   /* New styles for the job details section */
+  width: 900px;
   transition: all 0.3s ease; /* Adjust the duration and timing function as needed */
-  max-width: 800px; /* Set the maximum width of the job details section */
+  max-width: 1000px; /* Set the maximum width of the job details section */
   margin: 0 auto; /* Center the job details section horizontally */
   position: relative; 
 }
 
 #job-details.expanded {
   /* Styles to apply when the job details section is expanded */
-  max-width: 100%; /* Expand to full width */
+  max-width: 1000px; /* Expand to full width */
 }
-
-#close-button {
-  position: absolute;
-  top: 10px; /* Adjust the top position as needed */
-  right: 10px; /* Adjust the right position as needed */
-  background: none;
-  border: none;
-  font-size: 1.5em;
-  cursor: pointer;
-  color: #555; /* Adjust the color as needed */
+.job-details.hidden {
+  display: none;
 }
-
 
 
 
@@ -190,6 +185,47 @@
   padding: 8px;
   margin-bottom: 10px;
 }
+
+
+
+
+
+.job-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Align items vertically in the center */
+  margin-bottom: 20px;
+  margin-top: 0px; /* Add some margin at the bottom for spacing */
+  background-color: #3caf5e;
+}
+
+
+.job-logo {
+  width: 100px; /* Adjust the width of the logo as needed */
+  height: 120px; /* Adjust the height of the logo as needed */
+  margin-right: 10px; /* Add some margin to the right for spacing */
+}
+
+h3 {
+  margin: 0; /* Remove default margin for the h2 element */
+  color: #fff;
+}
+#close-button-container {
+  margin-left: auto; /* Adjust margin as needed */
+}
+
+#close-button {
+  background: none;
+  border: none;
+  margin-top: 0px;
+  font-size: 70px;
+  cursor: pointer;
+  font-style: oblique;
+  color: #030303;
+}
+
+/* Add any additional styling as needed */
+
 
 
 /* Style the "Edit" link */
