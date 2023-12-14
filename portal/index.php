@@ -141,7 +141,7 @@ if (!isset($_SESSION['user_id'])) {
       echo '<tr>';
       echo '<td><h4>' . $row['job_title'] . '</h4></td>';
       echo '<td><p>' . $row['deadline_date'] . '</p></td>';
-      echo '<td><p><a href="jobs.php?id=' . $row['job_id'] . '">View</a></p></td>';
+      echo '<td><p><a href="home_apply.php?id=' . $row['job_id'] . '">View</a></p></td>';
       echo '</tr>';
     }
 

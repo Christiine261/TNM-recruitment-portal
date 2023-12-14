@@ -28,6 +28,7 @@ $result = mysqli_query($conn, $query);
 if ($result) {
     $userDetails = mysqli_fetch_assoc($result);
     $loggedInUserEmail = isset($userDetails['email']) ? $userDetails['email'] : '';
+    $loggedInName = isset($userDetails['full_name']) ? $userDetails['$full_name'] : '';
 } else {
     // Handle the case when fetching user details fails
     $loggedInUserEmail = '';
